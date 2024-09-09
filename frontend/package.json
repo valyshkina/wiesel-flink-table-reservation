@@ -1,0 +1,27 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "rsbuild build",
+    "check": "biome check --write",
+    "dev": "rsbuild dev --open",
+    "format": "prettier --write .",
+    "preview": "rsbuild preview",
+    "generate-api": "curl -o swagger.json http://localhost:8080/v3/api-docs && openapi-generator-cli generate -i ./swagger.json -g typescript-fetch -o ./src/api"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.1"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.13.4",
+    "@rsbuild/core": "^1.0.0-alpha.4",
+    "@rsbuild/plugin-react": "^1.0.0-alpha.4",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "prettier": "^3.3.2",
+    "typescript": "^5.5.2"
+  }
+}
