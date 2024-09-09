@@ -45,6 +45,13 @@ public class ReservationController {
         if(restaurant == null){
             return new ResponseEntity<>("Restaurant mit dem Namen" + restaurantName + "wurde nicht gefunden.", HttpStatus.NOT_FOUND);
         }
+        int maxCapacity = reservationService.getMaxCapacity(restaurant);
+
+        if(capacity < 1 || capacity > maxCapacity){
+            return new ResponseEntity<>("Die gewünschte Kapazität von " + capacity + " liegt außerhalb der möglichen Kapazitäten. Die maximale Kapazität beträgt " + maxCapacity + ".", HttpStatus.OK);
+
+        }
+
         boolean available = reservationService.isTableAvailable(restaurant, capacity);
         if(available){
         return new ResponseEntity<>("ein passender Tisch ist verfügbar.", HttpStatus.OK);
@@ -63,7 +70,7 @@ public class ReservationController {
 
         int maxCapacity = reservationService.getMaxCapacity(restaurant);
         if(capacity < 1 || capacity > maxCapacity){
-            return new ResponseEntity<>("Die gewünschte Kapazität von " + capacity + " liegt außerhalb der möglichen Kapazitäten. Die maximale Kapazität beträgt " + maxCapacity + ".", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Die gewünschte Kapazität von " + capacity + " liegt außerhalb der möglichen Kapazitäten. Die maximale Kapazität beträgt " + maxCapacity + ".", HttpStatus.OK);
 
         }
        int result = reservationService.reserve(restaurant, capacity, reservedBy );
@@ -71,7 +78,7 @@ public class ReservationController {
             return new ResponseEntity<>("Reservierung erfolgreich, Ihre Reservierungsnummer  lautet:" + result + ".", HttpStatus.OK);
        }
        else{
-           return new ResponseEntity<>("Kein passender Tisch verfügbar.", HttpStatus.BAD_REQUEST);
+           return new ResponseEntity<>("Kein passender Tisch verfügbar.", HttpStatus.OK);
        }
 
     }
